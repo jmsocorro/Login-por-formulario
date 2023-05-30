@@ -1,0 +1,4 @@
+node_modules
+/src/dao/CartManager.js
+/src/dao/ProductManager.js
+/data
