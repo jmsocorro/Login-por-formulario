@@ -1,4 +1,10 @@
 <link rel="stylesheet" href="/css/userStyles.css" />
 <h2>Login</h2>
 <div class="user login">
+    <form method="post">
+        <input name="first_name" type="text" required pattern="^[A-Z][a-z]+( [A-Z][a-z]+)*$"/>
+        <input name="last_name" type="text" required pattern="^[A-Z][a-z]+( [A-Z][a-z]+)*$ "/>
+        <input name="email" type="email" required />
+        <input name="age" type="number" required pattern=""/>
+    </form>
 </div>
