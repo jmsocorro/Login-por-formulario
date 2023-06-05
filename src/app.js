@@ -26,14 +26,6 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
-app.use("/", userRouter);
-app.use("/api/products", apiProductsRouter);
-app.use("/products", productsRouter);
-app.use("/api/carts", apiCartsRouter);
-app.use("/carts", cartsRouter);
-app.use("/chat", chatRouter);
-app.use("/realtimeproducts", realTimeProductsRouter);
-app.use(express.static(__dirname + "/public"));
 app.use(
     session({
         store: MongoStore.create({
@@ -44,13 +36,22 @@ app.use(
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
             },
-            ttl: 120,
+            ttl: 14 * 24 * 60 * 60,
         }),
         secret: "M3ss!2OZZ",
         resave: true,
         saveUninitialized: true,
     }),
 );
+
+app.use("/", userRouter);
+app.use("/api/products", apiProductsRouter);
+app.use("/products", productsRouter);
+app.use("/api/carts", apiCartsRouter);
+app.use("/carts", cartsRouter);
+app.use("/chat", chatRouter);
+app.use("/realtimeproducts", realTimeProductsRouter);
+app.use(express.static(__dirname + "/public"));
 
 try {
     await mongoose.connect(

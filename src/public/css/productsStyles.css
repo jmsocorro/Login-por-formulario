@@ -26,7 +26,8 @@
 .category::before,
 .paginado::before,
 .limite::before,
-.stock::before {
+.stock::before,
+.user::before {
   display: block;
   flex: 0 0 100%;
   font-size: 0.5;
@@ -39,7 +40,8 @@
 .category a,
 .paginado a,
 .limite a,
-.stock a {
+.stock a,
+.user a {
   margin: 0.5rem;
   background: #CCC;
   padding: 0.5rem;
@@ -53,13 +55,15 @@
 .category a:hover,
 .paginado a:hover,
 .limite a:hover,
-.stock a:hover {
+.stock a:hover,
+.user a:hover {
   background: #AAA;
 }
 .category a.disabled,
 .paginado a.disabled,
 .limite a.disabled,
-.stock a.disabled {
+.stock a.disabled,
+.user a.disabled {
   opacity: 0.3;
   cursor: auto;
 }
@@ -78,6 +82,20 @@
 
 .stock::before {
   content: "stock";
+}
+
+.user {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  align-items: flex-end;
+  align-content: flex-start;
+  width: 100%;
+  padding: 1rem;
+}
+.user .info {
+  margin: 0.5rem;
+  padding: 0.5rem;
 }
 
 .product {

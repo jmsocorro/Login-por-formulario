@@ -1,6 +1,10 @@
 <link rel="stylesheet" href="/css/productsStyles.css">
 <h2>Productos</h2>
 <div class="filters">
+    <div class="user">
+        <div class="info">Bienvenido {{user.first_name}} {{user.last_name}} ({{user.email}} / {{user.role}})</div>
+        <a href='/logout'>Cerrar sessión</a>
+    </div>
     <div class="category">
         <a href='products'>Todas las categorías</a>
         <a href='?query={"category":"Impermeabilizantes"}'>Impermeabilizantes</a>
@@ -21,7 +25,7 @@
     </div>
 </div>
 <div class="products">
-{{#each payload}}
+{{#each productos.payload}}
     <div class="product">
         <h3>{{this.title}}</h3>
         <img src="https://sinteplastconstruccion.com.ar/assets/img/sinteplastconstruccion.com.ar/photos/w300/{{this.thumbnails}}"  alt="foto producto" width="100">

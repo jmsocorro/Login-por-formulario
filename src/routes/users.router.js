@@ -3,65 +3,94 @@ import { UserManagerDB } from "../dao/UserManagerDB.js";
 
 const router = Router();
 const user = new UserManagerDB();
-
 router.get("/", (req, res) => {
-    console.log(req.session)
-    res.render("register", {});
-});
-router.get("/register", (req, res) => {
-    res.render("register", {});
-});
-router.post("/", async (req, res) => {
-    const newuser = req.body;
-    console.log(newuser);
-    try {
-        const result = await user.newUser(newuser);
-        if (result.error) {
-            res.status(400).send(result);
-        } else {
-            res.redirect("login");
-        }
-    } catch (err) {
-        res.status(400).send(err);
-    }
-});
-router.post("/register", async (req, res) => {
-    const newuser = req.body;
-    console.log(newuser);
-    try {
-        const result = await user.newUser(newuser);
-        if (result.error) {
-            res.status(400).send(result);
-        } else {
-            res.redirect("login");
-        }
-    } catch (err) {
-        res.status(400).send(err);
+    if (req.session.user) {
+        res.redirect("/products");
+    } else {
+        res.render("login", {});
     }
 });
 router.get("/login", (req, res) => {
-    console.log(req.Session)
-    console.log(req.sessions)
-    console.log(req.session)
-    res.render("login", {});
+    if (req.session.user) {
+        res.redirect("/products");
+    } else {
+        res.render("login", {});
+    }
 });
 router.post("/login", async (req, res) => {
     const loguser = req.body;
-    try {
-        const result = await user.loginUser(loguser);
-        console.log(result);
-        if (result.error) {
-            res.status(400).send(result);
-        } else {
-            delete result.password;
-            delete result._id;
-            delete result.__v;
-            req.session.user = result;
-            res.status(200).send(result);
+    if (req.session.user) {
+        res.redirect("/products");
+    } else if (
+        loguser.email === "adminCoder@coder.com" &&
+        loguser.password === "adminCod3r123"
+    ) {
+        req.session.user = {
+            first_name: "Admin",
+            last_name: "Coder",
+            email: loguser.email,
+            age: -1,
+            role: "admin",
+        };
+        res.redirect("/products");
+    } else {
+        try {
+            const result = await user.loginUser(loguser);
+            if (result.error) {
+                res.render("login", {
+                    message: {
+                        type: "error",
+                        title: "Error de logueo",
+                        text: result.errortxt,
+                    },
+                });
+            } else {
+                delete result.password;
+                delete result._id;
+                delete result.__v;
+                req.session.user = result;
+                res.redirect("/products");
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(400).send(err);
         }
-    } catch (err) {
-        console.log(err);
-        res.status(400).send(err);
+    }
+});
+router.get("/register", (req, res) => {
+    if (req.session.user) {
+        res.redirect("/products");
+    } else {
+        res.render("register", {});
+    }
+});
+router.post("/register", async (req, res) => {
+    if (req.session.user) {
+        res.redirect("/products");
+    } else {
+        const newuser = req.body;
+        try {
+            const result = await user.newUser(newuser);
+            if (result.error) {
+                res.render("register", {
+                    message: {
+                        type: "error",
+                        title: "Error de registro",
+                        text: result.errortxt,
+                    },
+                });
+            } else {
+                res.render("login", {
+                    message: {
+                        type: "success",
+                        title: "Registro exitoso",
+                        text: "Iniciá tu session con los datos cargados",
+                    },
+                });
+            }
+        } catch (err) {
+            res.status(400).send(err);
+        }
     }
 });
 router.get("/logout", (req, res) => {
