@@ -33,7 +33,7 @@ app.use("/api/carts", apiCartsRouter);
 app.use("/carts", cartsRouter);
 app.use("/chat", chatRouter);
 app.use("/realtimeproducts", realTimeProductsRouter);
-
+app.use(express.static(__dirname + "/public"));
 app.use(
     session({
         store: MongoStore.create({
@@ -52,7 +52,6 @@ app.use(
     }),
 );
 
-app.use(express.static(__dirname + "/public"));
 try {
     await mongoose.connect(
         "mongodb+srv://jmsocorro:mongodbJMS73@cluster0.zzswcza.mongodb.net/ecommerce",

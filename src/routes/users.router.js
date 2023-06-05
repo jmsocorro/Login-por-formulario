@@ -5,6 +5,7 @@ const router = Router();
 const user = new UserManagerDB();
 
 router.get("/", (req, res) => {
+    console.log(req.session)
     res.render("register", {});
 });
 router.get("/register", (req, res) => {
@@ -39,6 +40,9 @@ router.post("/register", async (req, res) => {
     }
 });
 router.get("/login", (req, res) => {
+    console.log(req.Session)
+    console.log(req.sessions)
+    console.log(req.session)
     res.render("login", {});
 });
 router.post("/login", async (req, res) => {
