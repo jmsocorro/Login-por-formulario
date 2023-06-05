@@ -1,0 +1,43 @@
+.user {
+  padding: 1rem;
+}
+.user input {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.2rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.user label {
+  font-style: italic;
+  font-size: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  display: block;
+  padding: 1rem;
+  border-bottom: 1px solid #000;
+}
+
+h2 {
+  display: block;
+  padding: 1rem;
+}
+
+h3 {
+  display: block;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #999;
+  margin-bottom: 1rem;
+}
+
+h4 {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+img {
+  max-height: 300px;
+}/*# sourceMappingURL=usersStyles.css.map */

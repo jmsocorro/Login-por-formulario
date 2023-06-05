@@ -2,28 +2,72 @@ import { Router } from "express";
 import { UserManagerDB } from "../dao/UserManagerDB.js";
 
 const router = Router();
-const prod = new UserManagerDB();
+const user = new UserManagerDB();
 
-router.get("/", async (req, res) => {
-    let { limit, page, query, sort } = req.query;
+router.get("/", (req, res) => {
+    res.render("register", {});
+});
+router.get("/register", (req, res) => {
+    res.render("register", {});
+});
+router.post("/", async (req, res) => {
+    const newuser = req.body;
+    console.log(newuser);
     try {
-        const productos = await prod.getUsers(limit, page, query, sort);
-        res.render("products", productos);
+        const result = await user.newUser(newuser);
+        if (result.error) {
+            res.status(400).send(result);
+        } else {
+            res.redirect("login");
+        }
     } catch (err) {
         res.status(400).send(err);
     }
 });
-router.get("/:id", async (req, res) => {
-    let id = req.params.id;
+router.post("/register", async (req, res) => {
+    const newuser = req.body;
+    console.log(newuser);
     try {
-        const foundprod = await prod.getUserById(id);
-        res.render("user", foundprod);
-    } catch (error) {
-        res.status(404).send({
-            error: "Producto no encontrado",
-            servererror: error,
-        });
+        const result = await user.newUser(newuser);
+        if (result.error) {
+            res.status(400).send(result);
+        } else {
+            res.redirect("login");
+        }
+    } catch (err) {
+        res.status(400).send(err);
     }
+});
+router.get("/login", (req, res) => {
+    res.render("login", {});
+});
+router.post("/login", async (req, res) => {
+    const loguser = req.body;
+    try {
+        const result = await user.loginUser(loguser);
+        console.log(result);
+        if (result.error) {
+            res.status(400).send(result);
+        } else {
+            delete result.password;
+            delete result._id;
+            delete result.__v;
+            req.session.user = result;
+            res.status(200).send(result);
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+});
+router.get("/logout", (req, res) => {
+    req.session.destroy((error) => {
+        if (error) {
+            res.status(500).render("errors", { error: error });
+        } else {
+            res.redirect("login");
+        }
+    });
 });
 
 export default router;

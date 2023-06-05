@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const userCollection = "users";
 
 const userSchema = new mongoose.Schema({
@@ -24,5 +23,5 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
 });
-
+mongoose.set("strictQuery", false);
 export const userModel = mongoose.model(userCollection, userSchema);
